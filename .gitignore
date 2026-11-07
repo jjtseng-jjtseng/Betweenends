@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.tmp*
+.DS_Store
+
+# Third-party source PDFs from usarchery.org (~60 MB). Re-downloadable: `python -m pipeline.legacy fetch`.
+# The manifest (URL + SHA-256 of each file) IS tracked, as are all parsed outputs.
+data/raw/legacy_usarchery/*.pdf
