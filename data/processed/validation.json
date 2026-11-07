@@ -1,0 +1,352 @@
+[
+ {
+  "family": "structure",
+  "check": "tables are non-empty",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "structure",
+  "check": "tournaments.tournament_id unique",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "structure",
+  "check": "events.event_id unique",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "structure",
+  "check": "entries.entry_id unique",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "structure",
+  "check": "events -> tournaments",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "structure",
+  "check": "entries -> events",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "structure",
+  "check": "entry_groups -> entries",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "structure",
+  "check": "entry_arrows -> entries",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "structure",
+  "check": "match_rows.match_row_id unique",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "structure",
+  "check": "match_rows -> events",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "structure",
+  "check": "archers.archer_id unique",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "structure",
+  "check": "entries.archer_id all in archers",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "coverage",
+  "check": "in-scope tournaments",
+  "status": "PASS",
+  "detail": "1473 tournaments",
+  "count": 1473
+ },
+ {
+  "family": "coverage",
+  "check": "every in-scope tournament has its detail collected",
+  "status": "PASS",
+  "detail": "",
+  "count": 0
+ },
+ {
+  "family": "coverage",
+  "check": "every in-scope tournament has >=1 event or is documented empty",
+  "status": "PASS",
+  "detail": "",
+  "count": 9
+ },
+ {
+  "family": "coverage",
+  "check": "no 'not collected' events",
+  "status": "PASS",
+  "detail": "",
+  "count": 0
+ },
+ {
+  "family": "coverage",
+  "check": "no unparsed events",
+  "status": "PASS",
+  "detail": "",
+  "count": 0
+ },
+ {
+  "family": "coverage",
+  "check": "ranking events with registered archers but no scores",
+  "status": "PASS",
+  "detail": "0 of 1815 ranking events carry no arrow data at source (tournament created, scoring never used)",
+  "count": 0
+ },
+ {
+  "family": "coverage",
+  "check": "upcoming tournaments catalogued but not fetched",
+  "status": "PASS",
+  "detail": "40",
+  "count": 40
+ },
+ {
+  "family": "coverage",
+  "check": "expected marquee categories present for each year",
+  "status": "PASS",
+  "detail": "missing (category, year): []",
+  "count": 0
+ },
+ {
+  "family": "scoring",
+  "check": "entries whose score exceeds their event's own format maximum (source inconsistency, flagged and excluded from stats)",
+  "status": "WARN",
+  "detail": "648 entries in 14 events; all flagged score_exceeds_format",
+  "count": 648
+ },
+ {
+  "family": "scoring",
+  "check": "events whose declared scoring rule is contradicted by the arrows shot (observed max used instead)",
+  "status": "WARN",
+  "detail": "7 events: [1692, 2458, 4754, 5215, 5481, 6501]",
+  "count": 7
+ },
+ {
+  "family": "scoring",
+  "check": "no complete_card entry exceeds the maximum",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "scoring",
+  "check": "totals-only entries (no arrows) counted as complete performances",
+  "status": "PASS",
+  "detail": "13,351",
+  "count": 13351
+ },
+ {
+  "family": "scoring",
+  "check": "scores non-negative",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "scoring",
+  "check": "sum(round totals) == regulation score",
+  "status": "PASS",
+  "detail": "",
+  "count": 0
+ },
+ {
+  "family": "scoring",
+  "check": "avg_arrow within [0, max arrow value]",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "scoring",
+  "check": "every complete card has an avg_arrow",
+  "status": "PASS",
+  "detail": "",
+  "count": 0
+ },
+ {
+  "family": "scoring",
+  "check": "pct_of_max within [0, 1]",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "scoring",
+  "check": "ranks within group size",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "scoring",
+  "check": "rank 1 exists in every ranked group",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "scoring",
+  "check": "arrow strings use legal symbols",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "groups",
+  "check": "group names resolve to a division",
+  "status": "WARN",
+  "detail": "1.66% of group rows unparsed; most common: ['Scoring Member', 'League Unisex', 'Novice Cloverleaf', 'Learning Division Learning Class', 'Combined Ranking', 'Division 6 \u2013 Intermediate Novice']",
+  "count": 4539
+ },
+ {
+  "family": "groups",
+  "check": "age class resolved",
+  "status": "PASS",
+  "detail": "1.07% unknown; e.g. ['Scoring Member', 'League Unisex', 'Novice Cloverleaf', 'Learning Division Learning Class', 'Combined Ranking']",
+  "count": 2930
+ },
+ {
+  "family": "dedupe",
+  "check": "non-canonical (duplicate) performances",
+  "status": "PASS",
+  "detail": "95,087 of 304,023 entries (31.3%) are the same physical performance as a canonical entry",
+  "count": 95087
+ },
+ {
+  "family": "dedupe",
+  "check": "every duplicate points at an existing canonical entry",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "dedupe",
+  "check": "duplicates share the archer and arrow string with their canonical entry",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "dedupe",
+  "check": "no canonical performance repeated (archer + arrows)",
+  "status": "PASS",
+  "detail": "",
+  "count": null
+ },
+ {
+  "family": "identity",
+  "check": "basis mix",
+  "status": "PASS",
+  "detail": "{'alt': 237316, 'name_matched_to_alt': 25083, 'name_only': 17844, 'name_bridged': 11730, 'alt_bridged': 6332, 'name_only_ambiguous': 5718}",
+  "count": null
+ },
+ {
+  "family": "identity",
+  "check": "alts that map to >1 archer (split by incompatible names)",
+  "status": "PASS",
+  "detail": "244",
+  "count": 244
+ },
+ {
+  "family": "identity",
+  "check": "archers",
+  "status": "PASS",
+  "detail": "41,668 archers; bridged-alt 41,668",
+  "count": 41668
+ },
+ {
+  "family": "legacy",
+  "check": "parsed documents have rows",
+  "status": "PASS",
+  "detail": "",
+  "count": 0
+ },
+ {
+  "family": "legacy",
+  "check": "round scores sum to total (parser integrity)",
+  "status": "PASS",
+  "detail": "",
+  "count": 81
+ },
+ {
+  "family": "legacy",
+  "check": "documents not parsed (documented)",
+  "status": "PASS",
+  "detail": "7 of 25",
+  "count": null
+ },
+ {
+  "family": "external",
+  "check": "2025 Target Nationals/U.S. Open: Brady Ellison won Recurve Senior Men (double-gold weekend)",
+  "status": "PASS",
+  "detail": "published place 1, inferred 1.0 (https://www.usarchery.org/news/2025-a-year-of-depth-development-and-momentum-for-usa-archery-athletes)",
+  "count": null
+ },
+ {
+  "family": "external",
+  "check": "2025 Target Nationals/U.S. Open: Catalina Gnoriega won Recurve Senior Women (double-gold weekend)",
+  "status": "PASS",
+  "detail": "published place 1, inferred 1.0 (https://www.usarchery.org/news/2025-a-year-of-depth-development-and-momentum-for-usa-archery-athletes)",
+  "count": null
+ },
+ {
+  "family": "external",
+  "check": "2020 Indoor Nationals: Braden Gellenthien 1196 (compound senior men)",
+  "status": "PASS",
+  "detail": "published 1196, we compute 1196 (https://usarchery.org/news/usa-archery-indoor-national-champions-awarded-at-2020-season-opener)",
+  "count": null
+ },
+ {
+  "family": "external",
+  "check": "2020 Indoor Nationals: Brady Ellison 1191 (recurve senior men)",
+  "status": "PASS",
+  "detail": "published 1191, we compute 1191 (https://usarchery.org/news/usa-archery-indoor-national-champions-awarded-at-2020-season-opener)",
+  "count": null
+ },
+ {
+  "family": "external",
+  "check": "2021 Indoor Nationals: Kyle Douglas 598 (compound senior men)",
+  "status": "PASS",
+  "detail": "published 598, we compute 598 (https://www.usarchery.org/news/usa-archery-crowns-2021-indoor-national-champions)",
+  "count": null
+ },
+ {
+  "family": "external",
+  "check": "2021 Indoor Nationals: Casey Kaufhold 583 (recurve senior women)",
+  "status": "PASS",
+  "detail": "published 583, we compute 583 (https://www.usarchery.org/news/usa-archery-crowns-2021-indoor-national-champions)",
+  "count": null
+ }
+]

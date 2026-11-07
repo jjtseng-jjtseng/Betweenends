@@ -9,11 +9,11 @@ rebuildable pipeline.
 | | |
 |---|---|
 | **Every competition in the last 5 years** (Nov 2021 → Nov 2026) | 1,422 tournaments, complete as published: every event, every archer, every arrow that was entered |
-| **Nationals + USAT + team trials, past decade** (2016 → 2026) | 174 marquee tournaments from Between Ends (Dec 2017 →) + **12,389 result rows** from USA Archery's 2016-17 PDF results books |
+| **Nationals + USAT + team trials, past decade** (2016 → 2026) | 174 marquee tournaments from Between Ends (Dec 2017 →) + **12,942 result rows** from USA Archery's 2016-17 PDF results books |
 | Events / result entries | 2,763 events; 304,023 entries → **208,936 canonical performances** (the rest are duplicates, see below) |
 | Arrow-by-arrow records | 274,152 entries |
 | Elimination matches | 152,313 match rows |
-| Archers | ≈ 41.6k resolved people (38.8k in the Between Ends era) |
+| Archers | 41,668 resolved people (38,840 in the Between Ends era; 2,849 linked across both eras) |
 
 "Nationals" = USA Archery's national championships: **Indoor** (incl. JOAD & Collegiate), **Target Nationals / U.S. Open**
 (incl. JOAD), **Field**, **3D**, **Collegiate Target & 3D**, **OAS**. **USAT** = the *USA Archery Team* series (USAT #1–#4 + the
@@ -103,8 +103,8 @@ The pipeline recomputes every score from raw arrows. The validator compares thos
 
 ## Honest limitations
 
-* **2016 Target Nationals** are not listed on USA Archery's results-archive page (only the 2017 NTC/JNC book is), and 9 of the 25 catalogued 2016-17 PDFs use layouts that could not be parsed
-  (garbled font, spreadsheet/ianseo/selection-point layouts) — listed with reasons in [COVERAGE](docs/COVERAGE.md). 2016-17 rows have no arrow
+* **2016 Target Nationals** are not listed on USA Archery's results-archive page (only the 2017 NTC/JNC book is), and 7 of the 25 catalogued 2016-17 PDFs could not be parsed
+  (garbled font needing OCR, an ianseo book, selection-point tables, per-archer cards, a team-seeding sheet) — listed with reasons in [COVERAGE](docs/COVERAGE.md). 2016-17 rows have no arrow
   data and no member number.
 * **COVID**: no Field / Collegiate Nationals in 2020 — real absences, not gaps.
 * Some organisers never entered scores, entered impossible totals, or picked the wrong scoring rule; these are **flagged and excluded from
