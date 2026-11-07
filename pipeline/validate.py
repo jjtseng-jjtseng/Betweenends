@@ -159,7 +159,9 @@ def run(as_of: dt.date, proc: Path, docs: Path) -> Report:
     rt_sum = no_ov.round_totals.fillna("").map(lambda s: sum(int(x) for x in s.split("|") if x != "") if s else 0)
     bad_rt = no_ov[(rt_sum != no_ov.regulation_score) & (no_ov.arrows_shot > 0)]
     R.ok("scoring", "sum(round totals) == regulation score", bad_rt.empty, f"{len(bad_rt)} mismatches", len(bad_rt))
-    R.ok("scoring", "avg_arrow within [0, max arrow value]", ((cc.avg_arrow >= 0) & (cc.avg_arrow <= 14.0001)).all(), "avg_arrow out of range")
+    av = en.avg_arrow.dropna()
+    R.ok("scoring", "avg_arrow within [0, max arrow value]", ((av >= 0) & (av <= 14.0001)).all(), f"{int(((av < 0) | (av > 14.0001)).sum())} out of range")
+    R.ok("scoring", "every complete card has an avg_arrow", cc.avg_arrow.notna().all(), f"{int(cc.avg_arrow.isna().sum())} complete cards without avg_arrow", int(cc.avg_arrow.isna().sum()))
     R.ok("scoring", "pct_of_max within [0, 1]", cc.pct_of_max.dropna().between(0, 1.0001).all(), "pct_of_max out of range")
     rk_ok = en.rank_primary.dropna()
     R.ok("scoring", "ranks within group size", (en.dropna(subset=["rank_primary"]).rank_primary <= en.dropna(subset=["rank_primary"]).group_size_primary).all(), "rank > group size")

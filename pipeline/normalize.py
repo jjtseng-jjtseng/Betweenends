@@ -284,7 +284,8 @@ def process_ranking_event(tid: int, eref: dict, ev: dict, sc: dict | None):
         totals_only = bool(rtl_full and r.reg_arrows_shot == 0)           # results typed in as round totals
         # points-per-arrow denominator: all regulation arrows if every round total was entered; the arrows
         # actually shot if the card is arrow-scored; none (blank) for a typed/partial mix we cannot interpret.
-        if rtl_full:
+        arrows_complete = bool(reg and r.reg_arrows_shot >= reg)
+        if rtl_full or arrows_complete:
             basis_arrows = reg
         elif r.used_round_totals_override:
             basis_arrows = 0
