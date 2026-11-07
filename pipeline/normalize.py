@@ -584,10 +584,19 @@ def run(as_of: dt.date, out_dir: Path = config.PROCESSED_DIR) -> dict:
         aid_to_archer = {(r.tournament_id, r.aid): r.archer_id for r in entries_df[["tournament_id", "aid", "archer_id"]].itertuples()}
         nk_to_archers = entries_df.groupby("name_key").archer_id.nunique()
         unique_nk = entries_df[entries_df.name_key.isin(nk_to_archers[nk_to_archers == 1].index)].drop_duplicates("name_key").set_index("name_key").archer_id
+        team_rx = re.compile(r"^(?P<team>.*?)\s*\[(?P<members>[^\]]+)\]\s*$")
         for df_ in (match_df, custom_df):
             if len(df_):
                 ids, how = [], []
+                is_team, team_name, team_members = [], [], []
                 for r in df_.itertuples():
+                    tm = team_rx.match(f"{r.first_name_raw} {r.last_name_raw}".strip())
+                    is_team.append(bool(tm))
+                    team_name.append(tm.group("team").strip() if tm else "")
+                    team_members.append("|".join(x.strip() for x in tm.group("members").split("&")) if tm else "")
+                    if tm:                       # a team entry ("Name [A & B & C]"), not an individual archer
+                        ids.append(""); how.append("team")
+                        continue
                     a = aid_to_archer.get((r.tournament_id, r.aid)) if r.aid == r.aid and r.aid is not None else None
                     if a:
                         ids.append(a); how.append("tournament_aid")
@@ -599,6 +608,9 @@ def run(as_of: dt.date, out_dir: Path = config.PROCESSED_DIR) -> dict:
                         ids.append(""); how.append("unresolved")
                 df_["archer_id"] = ids
                 df_["archer_match_basis"] = how
+                df_["is_team"] = is_team
+                df_["team_name"] = team_name
+                df_["team_members"] = team_members
                 df_["display_name"] = [clean_display_name(f, l) for f, l in zip(df_.first_name_raw, df_.last_name_raw)]
         # entry-group table gets archer_id too
         groups_df = groups_df.merge(entries_df[["entry_id", "archer_id"]], on="entry_id", how="left")

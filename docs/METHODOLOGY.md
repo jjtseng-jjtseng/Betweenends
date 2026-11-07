@@ -46,7 +46,8 @@ One deliberate deviation: where the site recomputes a missing round total from a
 string by the wrong index (a round number where an end number is expected). We slice by round correctly.
 
 **Independent confirmation.** The validator compares our recomputed scores with results USA Archery published separately
-(e.g. 2020 Indoor Nationals: Gellenthien 1196, Ellison 1191; 2021: Douglas 598, Kaufhold 583) — all match exactly. See
+(e.g. 2020 Indoor Nationals: Gellenthien 1196, Ellison 1191; 2021: Douglas 598, Kaufhold 583) — all match exactly — and checks the
+inferred elimination placings against published winners (2025 U.S. Open: Ellison and Gnoriega, Recurve Senior Men/Women). See
 [VALIDATION](VALIDATION.md).
 
 ## 4. One performance, counted once
@@ -123,11 +124,17 @@ has spurious spaces inside words ("Alfre d"), so the parser reads **word positio
 * the round scores of every row must sum to the printed total (99 %+ pass; the failures are a documented quirk of the combined 2017 Final
   report, which prints only the first round cell — the total is correct and is used);
 * rows without the exact numeric shape (the books also contain match-card pages) are **rejected and counted**, not loaded;
-* documents in other layouts (ianseo books, spreadsheet exports, garbled text, selection-point tables) are listed with a reason and not guessed at.
+* three layouts are parsed (`archerz` — most documents; `collegiate_sheet` — the 2016 Indoor Collegiate Excel export, where wrapped cells are
+  bottom-aligned and a class header can sit mid-page; `asa_3d` — the 2017 Collegiate 3D report from ASA event software). Each has its own exact-sum gate
+  (round scores = total; for 3D, day 1 + day 2 = total);
+* documents in other layouts (an ianseo results book, garbled-font text that would need OCR, selection-point tables, per-archer cards) are listed with a
+  reason and not guessed at.
 
 These rows have **no arrow data and no member number**; archers are linked to their Between Ends histories only when the exact name is
 unambiguous (otherwise a name-only id), so 2016-17 appearances of a person using a very common name may not join their later history.
-Source PDFs are not committed (≈ 60 MB, third-party); `data/raw/legacy_usarchery/manifest.json` records each one's URL and SHA-256.
+Source PDFs are not committed (≈ 60 MB, third-party); `data/raw/legacy_usarchery/manifest.json` records each one's URL and SHA-256, and the
+parsed rows of every document are cached in `data/raw/legacy_usarchery/parsed/` (keyed by that SHA-256), so the whole dataset rebuilds from the
+repository alone.
 
 ## 9. Validation
 

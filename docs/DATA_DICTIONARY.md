@@ -119,7 +119,9 @@ opponent_final_score, final_place, archer_id, archer_match_basis, display_name`
 * `seed` = qualification rank; `won` = won this match; `final_score` = set points (recurve) or total (compound);
 * `pair_index` pairs the two rows of one match (`match_event_type` ≠ 8); `opponent_*` are the other row's values;
 * `final_place` (1,2,3,4,5,9,17,33,65) is **inferred** for single-elimination brackets and only when the gold match is decided;
-* `archer_match_basis`: `tournament_aid` (exact), `unique_name`, or `unresolved`.
+* `archer_match_basis`: `tournament_aid` (exact), `unique_name`, `team` (a team entry, see below) or `unresolved`;
+* team brackets (`Mixed Team`, `Official Team`) have rows named `Team name [A & B & C]`: `is_team = True`, `team_name`,
+  `team_members` (pipe-separated) and **no** `archer_id` — resolve members yourself if you need individual credit.
 
 ## custom_points.csv.gz — team / points tables (59,695)
 

@@ -25,24 +25,32 @@ breakdown and every known gap.
 ```python
 import pandas as pd
 P = "data/processed/"
-archers  = pd.read_csv(P + "archers.csv.gz",  dtype={"alt_id": str, "alt_ids": str})
-trends   = pd.read_csv(P + "archer_trends.csv.gz")
-marquee  = pd.read_csv(P + "marquee_results.csv.gz")             # every result at nationals / USAT / trials
-entries  = pd.read_csv(P + "entries.csv.gz", dtype={"alt_id": str, "alt_raw": str, "perf_key": str}, low_memory=False)
-entries  = entries[entries.is_canonical]                          # <- always: counts each performance once
+rd = lambda f, **kw: pd.read_csv(P + f, low_memory=False, **kw)
+archers = rd("archers.csv.gz", dtype={"alt_id": str, "alt_ids": str})
+trends  = rd("archer_trends.csv.gz")
+marquee = rd("marquee_results.csv.gz")                           # every result at nationals / USAT / trials
+entries = rd("entries.csv.gz", dtype={"alt_id": str, "alt_raw": str, "perf_key": str})
+entries = entries[entries.is_canonical]                          # <- always: counts each performance once
 
 # Who is Brady Ellison and how is he doing?
 a = archers[archers.display_name == "Brady Ellison"].iloc[0]
 print(a[["archer_id", "first_date", "last_date", "n_national_championships", "n_usat_events"]])
-print(trends[trends.archer_id == a.archer_id][["division", "format_family", "n_performances", "mean_avg_arrow", "slope_per_year", "trend"]])
+print(trends[(trends.archer_id == a.archer_id) & (trends.n_performances >= 3)]
+      [["division", "format_family", "n_performances", "mean_avg_arrow", "slope_per_year", "trend"]])
 
-# Who competed at the 2025 Target Nationals, and how did they place?
-m = marquee[(marquee.championship_key == "target_nationals:2025") & ~marquee.is_guest]
-print(m.sort_values(["division", "gender", "qualification_rank"])[["display_name", "division", "gender", "total_score", "qualification_rank", "final_place"]].head(20))
+# Who competed at the 2025 Target Nationals (Senior Recurve Men), and how did they place?
+m = marquee[(marquee.championship_key == "target_nationals:2025") & ~marquee.is_guest
+            & (marquee.division == "Recurve") & (marquee.age_class == "Senior") & (marquee.gender == "M")]
+print(m.sort_values("qualification_rank")[["display_name", "total_score", "qualification_rank", "final_place"]].head(10))
 ```
 
 More: [what the data says](docs/TRENDS.md) (participation, scoring level, top competitors, improvers),
 [data dictionary](docs/DATA_DICTIONARY.md), [methodology](docs/METHODOLOGY.md), [validation report](docs/VALIDATION.md).
+
+**Open in Excel / Sheets:** the tables are gzip CSV (smaller, and pandas/R/DuckDB read them directly). Excel can't open `.gz`; either
+gunzip (`gunzip -k data/processed/archers.csv.gz`) or convert one table:
+`python -c "import pandas as pd; pd.read_csv('data/processed/archers.csv.gz').to_excel('archers.xlsx', index=False)"`.
+Start with `archers`, `archer_trends`, `marquee_results`, `yearly_summary` — the other tables are the detail behind them.
 
 ## What's in `data/`
 

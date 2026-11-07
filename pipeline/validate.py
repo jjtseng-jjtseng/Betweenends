@@ -72,6 +72,17 @@ EXTERNAL = [
 ]
 
 
+# Elimination-bracket winners published by USA Archery (checks our inferred `final_place`)
+EXTERNAL_BRACKET = [
+    dict(src="https://www.usarchery.org/news/2025-a-year-of-depth-development-and-momentum-for-usa-archery-athletes",
+         what="2025 Target Nationals/U.S. Open: Brady Ellison won Recurve Senior Men (double-gold weekend)",
+         tkey="target_nationals:2025", name="ellison", group="Recurve Senior Men", place=1),
+    dict(src="https://www.usarchery.org/news/2025-a-year-of-depth-development-and-momentum-for-usa-archery-athletes",
+         what="2025 Target Nationals/U.S. Open: Catalina Gnoriega won Recurve Senior Women (double-gold weekend)",
+         tkey="target_nationals:2025", name="gnoriega", group="Recurve Senior Women", place=1),
+]
+
+
 def run(as_of: dt.date, proc: Path, docs: Path) -> Report:
     R = Report()
     t = _read(proc, "tournaments.csv.gz")
@@ -190,6 +201,15 @@ def run(as_of: dt.date, proc: Path, docs: Path) -> Report:
         R.add("legacy", "documents not parsed (documented)", PASS, f"{int((~lg_t.parsed.fillna(False).astype(bool)).sum())} of {len(lg_t)}")
 
     print("external (independent published results)")
+    if len(mt) and "final_place" in mt:
+        for c in EXTERNAL_BRACKET:
+            tk = t[t.championship_key == c["tkey"]].tournament_id
+            m = mt[mt.tournament_id.isin(tk) & (mt.match_group == c["group"]) & mt.display_name.fillna("").str.lower().str.contains(c["name"])]
+            if m.empty:
+                R.add("external", c["what"], SKIP, "bracket not present in the processed data")
+                continue
+            got = m.final_place.min()
+            R.add("external", c["what"], PASS if got == c["place"] else WARN, f"published place {c['place']}, inferred {got} ({c['src']})")
     for c in EXTERNAL:
         sub = en[(en.is_canonical)]
         tk = t[t.championship_key == c["tkey"]].tournament_id
